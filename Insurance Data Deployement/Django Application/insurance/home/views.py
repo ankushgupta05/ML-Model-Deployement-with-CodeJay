@@ -1,8 +1,14 @@
 from django.shortcuts import render, HttpResponse
 
-import joblib
+import sklearn
+import joblib 
+# import pickle
 model = joblib.load('static/random_forest_regression')
+# model = joblib.load('Model/random_forest_regression.joblib')
 
+
+# with open('./Model/model_pickle','rb') as f:
+#     model = pickle.load(f)
 
 # Create your views here.
 def index(request):
@@ -19,7 +25,8 @@ def contact(request):
 
 
 def prediction(request):
-    if request.method == 'post':
+    if request.method == 'POST':
+        # print(request.POST)
         age = int(request.POST.get('age'))
         sex = int(request.POST.get('sex'))
         bmi = int(request.POST.get('bmi'))
@@ -28,8 +35,26 @@ def prediction(request):
         region = int(request.POST.get('region'))
         
         print(age,sex,bmi,children,smoker,region)
-        pass
+        
+        
+        try:
+            pred = model.predict([[age, sex, bmi, children, smoker, region]])
+            print(pred)
+         # Handle the specific attribute error
+        except AttributeError as e:
+            print(f"An error occurred: {e}")
+        
+        
+        
+        
+        # pred = model.predict([[age, sex, bmi, children, smoker, region]])
+        # print(pred)
+        
+        # output ={
+        #     'output':pred
+        # }
+        
+        return render(request,'prediction.html')
+
     else:
-        pass
-    
-    return render(request,'prediction.html')
+        return render(request,'prediction.html')

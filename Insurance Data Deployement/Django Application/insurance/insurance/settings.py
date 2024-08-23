@@ -62,6 +62,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'insurance.urls'
 
+
+# BASE_DIR/'templates'
+
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',

@@ -16,6 +16,19 @@ https://tailblocks.cc/
 ```
 
 
+3)
+//  important command to show all dependencies in text file
+```
+pip freeze > requirements.txt
+```
+
+
+
+##### install packages
+
+```
+pip install -r requirements.txt
+```
 
 3)
 
