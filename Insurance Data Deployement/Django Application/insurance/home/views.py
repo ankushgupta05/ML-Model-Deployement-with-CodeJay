@@ -2,10 +2,12 @@ from django.shortcuts import render, HttpResponse
 
 import sklearn
 import joblib 
+from math import ceil
 # import pickle
-model = joblib.load('static/random_forest_regression')
+# model = joblib.load('static/random_forest_regression')
 # model = joblib.load('Model/random_forest_regression.joblib')
 
+model = joblib.load('static/Linear_Regression_model')
 
 # with open('./Model/model_pickle','rb') as f:
 #     model = pickle.load(f)
@@ -24,6 +26,14 @@ def contact(request):
     return render(request,'contact.html')
 
 
+def login(request):
+    return render(request,'login.html')
+
+
+def registration(request):
+    return render(request,'registration.html')
+
+
 def prediction(request):
     if request.method == 'POST':
         # print(request.POST)
@@ -35,26 +45,30 @@ def prediction(request):
         region = int(request.POST.get('region'))
         
         print(age,sex,bmi,children,smoker,region)
+        pred = model.predict([[age, sex, bmi, children, smoker, region]])
+        
+        # try:
+        #     pred = model.predict([[age, sex, bmi, children, smoker, region]])
+        #     print(pred)
+        #  # Handle the specific attribute error
+        # except AttributeError as e:
+        #     print(f"An error occurred: {e}")
         
         
-        try:
-            pred = model.predict([[age, sex, bmi, children, smoker, region]])
-            print(pred)
-         # Handle the specific attribute error
-        except AttributeError as e:
-            print(f"An error occurred: {e}")
         
         
+        pred = model.predict([[age, sex, bmi, children, smoker, region]])
+        print(ceil(pred[0]))
         
+        output ={
+            'output':ceil(pred[0])
+        }
         
-        # pred = model.predict([[age, sex, bmi, children, smoker, region]])
-        # print(pred)
-        
-        # output ={
-        #     'output':pred
-        # }
-        
-        return render(request,'prediction.html')
+        return render(request,'prediction.html',output)
 
     else:
         return render(request,'prediction.html')
+    
+    
+    
+    

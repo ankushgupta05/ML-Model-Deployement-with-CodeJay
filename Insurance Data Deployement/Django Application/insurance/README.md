@@ -1,3 +1,6 @@
+1) create virtual environment them self
+
+
 
 1) 
 ```
@@ -45,3 +48,9 @@ pip install sklearn
 pip install scikit-learn
 pip install joblib
 ```
+
+
+
+#### make signup and login pages
+
+1)
